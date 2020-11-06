@@ -9,12 +9,12 @@ clickHandler(product.id)
 
 return(
     <div >
-<h2> {product.attributes.name}</h2>
+<h2> {product.name}</h2>
 <div>
-    <img src={product.attributes.image} alt= 'hi'/>
+    <img src={product.image} alt= 'hi'/>
 </div>
-<h3>${product.attributes.price}</h3>
-<p>{product.attributes.description}</p>
+<h3>${product.price}</h3>
+<p>{product.description}</p>
 <button onClick={localClickHandler}>Add to cart!</button>
 </div>
 )
