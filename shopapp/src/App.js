@@ -3,9 +3,12 @@ import './App.css';
 import ProductContainer from './container/productContainer'
 import ProductShow from './component/productShow'
 import { Route, Switch } from 'react-router-dom'
-import NavBar from './component/navBar'
+import Navigation from './component/navigation'
 import CartContainer from './container/cartContainer'
 import Orders from './container/orderContainer'
+import Home from './component/home'
+import Login from './component/login'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -17,7 +20,8 @@ class App extends React.Component{
     showClick:false,
     filterTerm:'',
     cart:[],
-    cartIds:[]
+    cartIds:[],
+    user:false
   }
   filterChange=(e)=>{
     this.setState({ filterTerm : e.target.value})
@@ -58,7 +62,26 @@ class App extends React.Component{
       .then(console.log)
 
   }
-
+  loginHandler=(user)=>{
+    fetch('http://localhost:3000/api/v1/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user: {
+          username: user.username,
+          password: user.password,
+        }
+      })
+    })
+      .then(res => res.json())
+      .then(response => {this.setState({ user:response})})
+    
+      
+    
+  }
 
 
   componentDidMount(){
@@ -67,11 +90,12 @@ class App extends React.Component{
     .then(data => {
       this.setState({products: data.data})
     })
-    fetch('http://localhost:3000/api/v1/users/1')
+    if (this.state.user)
+    {fetch('http://localhost:3000/api/v1/users/1')
       .then(res => res.json())
       .then(user => {
         this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item })
-      })
+      })}
       
   }
   renderProducts=()=>{
@@ -104,13 +128,16 @@ class App extends React.Component{
  }
   
   render(){
-    console.log()
-    console.log(this.state.cart, "our cart", this.state.cartIds)
+    console.log(this.state.user)
+
     return (
+      
       <div className="App">
-        <NavBar />
+        {this.state.user?
+        <div>
+        <Navigation />
         <Switch>
-          <Route path="/login" render={()=><h1>login</h1>}/>
+          <Route path="/login" render={()=><Login loginHandler={this.loginHandler}/>}/>
           <Route path="/checkout" render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
           <Route path="/orders" render={() => <Orders clickHandler={this.productCardClickHandler}/>} />
           <Route path="/signup" render={() => <h1>login</h1>} />
@@ -134,8 +161,11 @@ class App extends React.Component{
             )
           }} />
           <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()} clickHandler={this.productCardClickHandler} filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
-          <Route path="/" render={() => <h1>Welcome</h1>} />
+          <Route path="/" render={() => <Home/>} />
       </Switch>
+          </div>
+      : <Login loginHandler={this.loginHandler}/>  
+    }
       </div>
     );
 

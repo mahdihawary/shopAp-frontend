@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductCard from '../component/productCard'
+import {CardColumns} from 'react-bootstrap'
 
 class Cart extends React.Component{
     renderCartItems=()=>{
@@ -13,9 +14,10 @@ class Cart extends React.Component{
     render(){
         return(
             <div>
+            <CardColumns>
                 {this.renderCartItems()}
-                <button onClick={this.localPurchase}>checkout</button>
-                
+            </CardColumns>
+            <button onClick={this.localPurchase}>checkout</button>
             </div>
         )
     }

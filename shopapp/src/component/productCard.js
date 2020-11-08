@@ -1,4 +1,6 @@
 import React from 'react'
+import {Card} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 
 
@@ -7,16 +9,21 @@ const productCard = ({product, clickHandler}) =>{
        clickHandler(product.id)
    }
 return(
-<div onClick={localClickhandler}>
-<h2> {product.name}</h2>
-<div>
-    <img src={product.image} alt= 'hi'/>
-        <a href={`http://localhost:3001/products/${product.id}`}>show this</a>
-</div>
-<h3>${product.price}</h3>
 
 
-</div>
+
+
+
+
+<Card style={{ width: '18rem' }} onClick={localClickhandler}>
+  <Card.Img variant="top" src={product.image} />
+  <Card.Body>
+    <Card.Title>{product.name}</Card.Title>
+
+    <Button variant="dark"><a href={`http://localhost:3001/products/${product.id}`} className="link">view</a></Button>
+  </Card.Body>
+</Card>
+    
     )
 }
 

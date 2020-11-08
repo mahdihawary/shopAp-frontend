@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductCard from '../component/productCard'
+import {CardColumns} from 'react-bootstrap'
 
 
 
@@ -10,7 +11,7 @@ class orders extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`http://localhost:3000/api/v1/users/1`)
+        fetch(`http://localhost:3000/api/v1/profile`, {})
         .then(resp =>resp.json())
         .then(resp=>this.setState({past_orders:resp.data.attributes.past_products}))
     }
@@ -21,9 +22,9 @@ class orders extends React.Component{
     
     render(){
         return (
-            <div>
+            <CardColumns>
                 {this.renderProducts()}
-            </div>
+            </CardColumns>
 
         )
     }

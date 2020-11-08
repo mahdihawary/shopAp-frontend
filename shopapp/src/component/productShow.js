@@ -11,7 +11,7 @@ return(
     <div >
 <h2> {product.name}</h2>
 <div>
-    <img src={product.image} alt= 'hi'/>
+    <img src={product.image} alt= ''/>
 </div>
 <h3>${product.price}</h3>
 <p>{product.description}</p>

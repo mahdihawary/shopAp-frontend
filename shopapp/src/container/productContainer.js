@@ -3,6 +3,7 @@ import ProductCard from '../component/productCard'
 import ProductShow from '../component/productShow'
 import { Route, Switch } from 'react-router-dom'
 import SearchBar from '../component/searchBar'
+import{CardColumns} from 'react-bootstrap'
 
 
 const productContainer = ({products, clickHandler, filterTerm, filterChange}) =>{
@@ -13,9 +14,11 @@ const productContainer = ({products, clickHandler, filterTerm, filterChange}) =>
 
     return(
         <div>
-            <h1>hi</h1>
             <SearchBar filterTerm={filterTerm} filterChange={filterChange}/>
-            {renderProduct()}
+            <CardColumns>
+                {renderProduct()}
+            </CardColumns>
+            
             
         </div>
   
