@@ -23,11 +23,11 @@ class orders extends React.Component{
     }
 
     renderProducts=()=>{
-        return this.props.user.user.data.attributes.past_products.map(product => <ProductCard key={product.id} product={product} clickHandler={this.props.clickHandler} />)
+        return this.props.orders.map(product => <ProductCard key={product.id} product={product} clickHandler={this.props.clickHandler} />)
     }
     
     render(){
-        console.log(this.props.user)
+        console.log(this.props.orders)
         return (
             <CardColumns>
                 {this.renderProducts()}

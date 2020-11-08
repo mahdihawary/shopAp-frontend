@@ -21,7 +21,8 @@ class App extends React.Component{
     filterTerm:'',
     cart:[],
     cartIds:[],
-    user:false
+    user:false,
+    orders:[]
   }
   filterChange=(e)=>{
     this.setState({ filterTerm : e.target.value})
@@ -51,7 +52,12 @@ class App extends React.Component{
       body: JSON.stringify({ user_id: this.state.user.user.data.id, product_id: item.id })
     })
     .then(res => res.json())
-    .then(console.log)
+    .then(order => {
+        console.log(order, "cart item")
+        let newAr = [...this.state.orders, order.data.attributes.product]
+        this.setState({ orders: newAr })
+      })
+      .catch(console.log)
   }
 
   emptyCart=(item)=>{
@@ -78,7 +84,7 @@ class App extends React.Component{
       })
     })
       .then(res => res.json())
-      .then(response => {this.setState({ user:response})})
+      .then(response => { this.setState({ user: response, cart: response.user.data.attributes.products, cartIds: response.user.data.attributes.cart_item, orders: response.user.data.attributes.past_products})})
     
       console.log(this.state.user)
   }
@@ -92,17 +98,18 @@ class App extends React.Component{
       console.log(data.d)
     })
 
-    if (!!this.state.user)
-    {fetch('http://localhost:3000/api/v1/profile', {
-      method: 'GET',
-      headers: {
-     Authorization: `Bearer ${this.state.user.jwt}`
-  }
-    })
-      .then(res => res.json())
-      .then(user => {
-        this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item })
-      })}
+    
+  //   fetch('http://localhost:3000/api/v1/profile', {
+  //     method: 'GET',
+  //     headers: {
+  //    Authorization: `Bearer ${this.state.user.jwt}`
+  // }
+  //   })
+  //     .then(res => res.json())
+  //     .then(user => {
+  //       console.log(user.data.attributes.past_products)
+  //       this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item, orders:user.data.attributes.past_products })
+  //     })
       
   }
   renderProducts=()=>{
@@ -141,6 +148,7 @@ class App extends React.Component{
   
   render(){
     console.log(this.state.user)
+    console.log(this.state.cart)
     
 
     return (
@@ -151,15 +159,19 @@ class App extends React.Component{
           {this.state.user? <Navigation /> : null }
        
         <Switch>
+            
         <Route path="/products/:id" exact render={(routerProps) => {
             let id = routerProps.match.params.id
-            console.log("i am heyaaaah")
+              console.log(id)
+            
 
             let product
             if (this.state.products.length > 0) {
-              product = this.state.products.find(el => el.id === id)
+              product = this.state.products.find(el => el.id === id
+                )
               
             }
+                
             
             return (
               <>
@@ -171,10 +183,10 @@ class App extends React.Component{
               </>
             )
           }} />
-        {this.state.user?<>
-          <Route path="/login" exact render={()=><Login loginHandler={this.loginHandler}/>}/>
+            {this.state.user ? <>
+          {/* <Route path="/login" exact render={()=><Login loginHandler={this.loginHandler}/>}/> */}
           <Route path="/checkout"  exact render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
-          <Route path="/orders" exact render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user}/>} />
+              <Route path="/orders" exact render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user} orders={this.state.orders}/>} />
           <Route path="/signup" exact render={() => <h1>login</h1>} />
           
           <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()}  filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
