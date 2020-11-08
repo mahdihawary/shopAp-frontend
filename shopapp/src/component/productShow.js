@@ -1,12 +1,11 @@
 import React from 'react'
 
 
-const productShow = ({product, clickHandler}) =>{
+const productShow = ({product, clickHandler, userId}) =>{
 
 function localClickHandler(){
-clickHandler(product.id)
+clickHandler(product.id, userId)
 }
-
 return(
     <div >
 <h2> {product.name}</h2>
