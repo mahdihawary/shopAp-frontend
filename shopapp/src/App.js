@@ -48,7 +48,7 @@ class App extends React.Component{
         "content-type": "application/json",
         accepts: "application/json"
       },
-      body: JSON.stringify({ user_id: 1, product_id: item.id })
+      body: JSON.stringify({ user_id: this.state.user.user.data.id, product_id: item.id })
     })
     .then(res => res.json())
     .then(console.log)
@@ -63,6 +63,7 @@ class App extends React.Component{
 
   }
   loginHandler=(user)=>{
+    console.log(this.state.user)
     fetch('http://localhost:3000/api/v1/login', {
       method: 'POST',
       headers: {
@@ -79,19 +80,25 @@ class App extends React.Component{
       .then(res => res.json())
       .then(response => {this.setState({ user:response})})
     
-      
-    
+      console.log(this.state.user)
   }
-
+ 
 
   componentDidMount(){
     fetch('http://localhost:3000/api/v1/products')
     .then(res => res.json())
     .then(data => {
       this.setState({products: data.data})
+      console.log(data.d)
     })
-    if (this.state.user)
-    {fetch('http://localhost:3000/api/v1/users/1')
+
+    if (!!this.state.user)
+    {fetch('http://localhost:3000/api/v1/profile', {
+      method: 'GET',
+      headers: {
+     Authorization: `Bearer ${this.state.user.jwt}`
+  }
+    })
       .then(res => res.json())
       .then(user => {
         this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item })
@@ -102,22 +109,27 @@ class App extends React.Component{
     return this.state.products
   }
 
-  productCardClickHandler = (obj) =>{
-    let product =  this.state.products.filter(prod => prod.id === obj)
-    this.setState((prevState)=>({showClick: true}))
-    this.setState({showProduct: product[0]})
-  }
-
-  cardShowClickHandler= (id)=>{
+  // productCardClickHandler = (obj) =>{
+  //   console.log(this.state.user)
+  //   let product =  this.state.products.filter(prod => prod.id === obj)
+  //   this.setState((prevState)=>({showClick: true}))
+  //   this.setState({showProduct: product[0]})
+  //   console.log(this.state.user)
     
+  // }
+
+  cardShowClickHandler= (id, userId)=>{
+    console.log(this.state.user, "yesse=irrrrrr")
     fetch('http://localhost:3000/api/v1/cart_items', {
       method: "POST",
       headers: {
           "content-type": "application/json",
           accepts: "application/json"
       },
-      body: JSON.stringify({user_id: 1, product_id: id, product_count: 1})
+      body: JSON.stringify({user_id: userId, product_id: id, product_count: 1})
+     
   })
+  
       .then(resp => resp.json())
       .then(cart=>{
         console.log(cart, "cart item")
@@ -129,20 +141,19 @@ class App extends React.Component{
   
   render(){
     console.log(this.state.user)
+    
 
     return (
       
       <div className="App">
-        {this.state.user?
+        
         <div>
-        <Navigation />
+          {this.state.user? <Navigation /> : null }
+       
         <Switch>
-          <Route path="/login" render={()=><Login loginHandler={this.loginHandler}/>}/>
-          <Route path="/checkout" render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
-          <Route path="/orders" render={() => <Orders clickHandler={this.productCardClickHandler}/>} />
-          <Route path="/signup" render={() => <h1>login</h1>} />
-          <Route path="/products/:id" render={(routerProps) => {
+        <Route path="/products/:id" exact render={(routerProps) => {
             let id = routerProps.match.params.id
+            console.log("i am heyaaaah")
 
             let product
             if (this.state.products.length > 0) {
@@ -153,19 +164,26 @@ class App extends React.Component{
             return (
               <>
                   {
-                    this.state.products.length > 0 ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} />
+                    this.state.products.length > 0 && this.state.user ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} userId={this.state.user.user.data.id} />
                       :
                       <h1>Loading</h1>
                   }
               </>
             )
           }} />
-          <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()} clickHandler={this.productCardClickHandler} filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
-          <Route path="/" render={() => <Home/>} />
+        {this.state.user?<>
+          <Route path="/login" exact render={()=><Login loginHandler={this.loginHandler}/>}/>
+          <Route path="/checkout"  exact render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
+          <Route path="/orders" exact render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user}/>} />
+          <Route path="/signup" exact render={() => <h1>login</h1>} />
+          
+          <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()}  filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
+          <Route path="/" exact render={() => <Home/>} /></>
+          : <Login loginHandler={this.loginHandler}/>  
+        }
       </Switch>
           </div>
-      : <Login loginHandler={this.loginHandler}/>  
-    }
+     
       </div>
     );
 

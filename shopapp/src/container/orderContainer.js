@@ -11,16 +11,23 @@ class orders extends React.Component{
     }
 
     componentDidMount(){
-        fetch(`http://localhost:3000/api/v1/profile`, {})
-        .then(resp =>resp.json())
-        .then(resp=>this.setState({past_orders:resp.data.attributes.past_products}))
+    //   fetch('http://localhost:3000/api/v1/profile', {
+    //   method: 'GET',
+    //   headers: {
+    //  Authorization: `Bearer ${this.props.user.jwt}`
+    //   }
+    // })
+    //     .then(resp =>resp.json())
+    //     .then(resp=>this.setState({past_orders:resp.user.data.attributes.past_products}))
+    // 
     }
 
     renderProducts=()=>{
-        return this.state.past_orders.map(product => <ProductCard key={product.id} product={product} clickHandler={this.props.clickHandler} />)
+        return this.props.user.user.data.attributes.past_products.map(product => <ProductCard key={product.id} product={product} clickHandler={this.props.clickHandler} />)
     }
     
     render(){
+        console.log(this.props.user)
         return (
             <CardColumns>
                 {this.renderProducts()}
