@@ -133,39 +133,45 @@ class App extends React.Component{
     return (
       
       <div className="App">
-        {this.state.user?
-        <div>
+        
+       
         <Navigation />
+         
         <Switch>
+              <Route path="/products/:id" render={(routerProps) => {
+                let id = routerProps.match.params.id
+
+                let product
+                if (this.state.products.length > 0) {
+                  product = this.state.products.find(el => el.id === id)
+
+                }
+
+                return (
+                  <>
+                    {
+                      this.state.products.length > 0 ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} />
+                        :
+                        <h1>Loading</h1>
+                    }
+                  </>
+                )
+              }} />
+            {this.state.user ?
+            <>
           <Route path="/login" render={()=><Login loginHandler={this.loginHandler}/>}/>
           <Route path="/checkout" render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
           <Route path="/orders" render={() => <Orders clickHandler={this.productCardClickHandler}/>} />
           <Route path="/signup" render={() => <h1>login</h1>} />
-          <Route path="/products/:id" render={(routerProps) => {
-            let id = routerProps.match.params.id
-
-            let product
-            if (this.state.products.length > 0) {
-              product = this.state.products.find(el => el.id === id)
-              
-            }
-            
-            return (
-              <>
-                  {
-                    this.state.products.length > 0 ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} />
-                      :
-                      <h1>Loading</h1>
-                  }
-              </>
-            )
-          }} />
+          
           <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()} clickHandler={this.productCardClickHandler} filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
           <Route path="/" render={() => <Home/>} />
-      </Switch>
-          </div>
+      </>
+          
       : <Login loginHandler={this.loginHandler}/>  
+              
     }
+          </Switch>
       </div>
     );
 
