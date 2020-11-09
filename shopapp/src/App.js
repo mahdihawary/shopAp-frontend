@@ -9,6 +9,7 @@ import Orders from './container/orderContainer'
 import Home from './component/home'
 import Login from './component/login'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Signup from './component/signup'
 
 
 
@@ -88,6 +89,21 @@ class App extends React.Component{
     
       console.log(this.state.user)
   }
+
+  SignUpSubmitHandler =(obj) =>{
+    fetch('http://localhost:3000/api/v1/users', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accepts: "application/json"
+      },
+      body: JSON.stringify({user:{ username:obj.username , password: obj.password, user_img:obj.userImg }})
+    })
+    .then(res => res.json())
+      .then(response => { this.setState({ user: response, cart: response.user.data.attributes.products, cartIds: response.user.data.attributes.cart_item, orders: response.user.data.attributes.past_products})})
+    
+      console.log(this.state.user)
+  }
  
 
   componentDidMount(){
@@ -98,33 +114,13 @@ class App extends React.Component{
       console.log(data.d)
     })
 
-    
-  //   fetch('http://localhost:3000/api/v1/profile', {
-  //     method: 'GET',
-  //     headers: {
-  //    Authorization: `Bearer ${this.state.user.jwt}`
-  // }
-  //   })
-  //     .then(res => res.json())
-  //     .then(user => {
-  //       console.log(user.data.attributes.past_products)
-  //       this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item, orders:user.data.attributes.past_products })
-  //     })
       
   }
   renderProducts=()=>{
     return this.state.products
   }
 
-  // productCardClickHandler = (obj) =>{
-  //   console.log(this.state.user)
-  //   let product =  this.state.products.filter(prod => prod.id === obj)
-  //   this.setState((prevState)=>({showClick: true}))
-  //   this.setState({showProduct: product[0]})
-  //   console.log(this.state.user)
-    
-  // }
-
+  
   cardShowClickHandler= (id, userId)=>{
     console.log(this.state.user, "yesse=irrrrrr")
     fetch('http://localhost:3000/api/v1/cart_items', {
@@ -159,7 +155,7 @@ class App extends React.Component{
           {this.state.user? <Navigation /> : null }
        
         <Switch>
-            
+        {/* <Route path="/signup" exact render={() => <Signup submitHandler={this.SignUpSubmitHandler}/>} /> */}
         <Route path="/products/:id" exact render={(routerProps) => {
             let id = routerProps.match.params.id
               console.log(id)
@@ -187,11 +183,13 @@ class App extends React.Component{
           {/* <Route path="/login" exact render={()=><Login loginHandler={this.loginHandler}/>}/> */}
           <Route path="/checkout"  exact render={() => <CartContainer cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
               <Route path="/orders" exact render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user} orders={this.state.orders}/>} />
-          <Route path="/signup" exact render={() => <h1>login</h1>} />
           
           <Route path="/products" exact render={() => <ProductContainer products={this.filterProduct()}  filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
           <Route path="/" exact render={() => <Home/>} /></>
-          : <Login loginHandler={this.loginHandler}/>  
+          : <> 
+          <Route path="/signup" exact render={() => <Signup submitHandler={this.SignUpSubmitHandler}/>} /> 
+          <Route path="/"  exact render={() => <Login loginHandler={this.loginHandler}/>} />
+          </>
         }
       </Switch>
           </div>
