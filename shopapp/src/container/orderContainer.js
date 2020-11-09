@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductCard from '../component/productCard'
-import {CardColumns} from 'react-bootstrap'
+import {CardColumns, Container} from 'react-bootstrap'
 
 
 
@@ -28,10 +28,14 @@ class orders extends React.Component{
     
     render(){
         console.log(this.props.orders)
-        return (
+        return (<div>
             <CardColumns>
                 {this.renderProducts()}
             </CardColumns>
+            <Container>
+                
+            </Container>
+            </div>
 
         )
     }

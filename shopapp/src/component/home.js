@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import { Carousel, Container } from 'react-bootstrap'
 
 

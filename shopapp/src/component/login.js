@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Col, Button } from 'react-bootstrap'
+import { Container, Form, Col } from 'react-bootstrap'
 
 class Login extends React.Component {
 
@@ -38,17 +38,23 @@ class Login extends React.Component {
 
     render(){
         return (
-            <Form onSubmit={this.localSubmitHandler}>
-                <Form.Row className="justify-content-md-center">
+            <Container className="login-form">
+                <h1>Log in</h1>
+                <div className="row h-100 justify-content-center align-items-center">
+            <Form onSubmit={this.localSubmitHandler} className="col-12 ">
+                <Form.Row className=" h-100 justify-content-md-center">
                     <Col sm={4} className="my-1">
-                        <Form.Control type="text" name="username" value={this.state.username} onChange={e => this.changeHandler(e)} placeholder="username" id="inlineFormInputName"/>
+                                <Form.Control type="text" name="username" value={this.state.username} onChange={e => this.changeHandler(e)} placeholder="username" id="inlineFormInputName" className="login-input"/>
+                    
+                    
+                        <Form.Control type="password" name="password" value={this.state.password} onChange={e => this.changeHandler(e)} className="login-input"/>
+                                <button type="submit" className="login-input btn-primary btn">submit</button>
                     </Col>
-                    <Col sm={3} className="my-1">
-                        <Form.Control type="password" name="password" value={this.state.password} onChange={e => this.changeHandler(e)}/>
-                    </Col>
-                    <button type="submit">submit</button>
+                    
                 </Form.Row>
             </Form>
+            </div>
+            </Container>
         )
     }
     }
