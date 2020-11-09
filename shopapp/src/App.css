@@ -29,4 +29,6 @@
 .formCont{
   padding-bottom: 3px;
 }
-
+.logout-link:hover{
+  cursor: pointer;
+}

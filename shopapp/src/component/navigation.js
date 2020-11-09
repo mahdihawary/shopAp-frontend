@@ -5,7 +5,7 @@ import { Nav } from 'react-bootstrap'
 
 
 
-const navigation = () => {
+const navigation = ({logOut}) => {
     
     return (
         <Navbar bg="light" expand="lg" sticky="top">
@@ -16,6 +16,7 @@ const navigation = () => {
                     {/* <NavLink to="/login" exact className="nav-link" >Login</NavLink> */}
                     <NavLink to="/orders" exact className="nav-link">Past Orders</NavLink>
                     <NavLink to="/checkout" exact className="nav-link">Checkout</NavLink>
+                    <p className="nav-link logout-link"  onClick={logOut}>Log Out</p>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
