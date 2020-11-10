@@ -32,3 +32,10 @@
 .logout-link:hover{
   cursor: pointer;
 }
+
+.table-head{
+  background-color: rgba(128, 128, 128, 0.555);
+}
+.tahead{
+  padding: 0;
+}

@@ -24,7 +24,7 @@ class Cart extends React.Component{
             <div>
 
                 <div className="card">
-                    <div className="card-body">
+                    <div className="card-body tahead">
 
                         
     
@@ -61,7 +61,7 @@ class Cart extends React.Component{
                                         </h4>
                                     </td>
                                     <td colspan="3" class="text-right">
-                                        <button type="button" onClick={this.localPurchase} class="btn btn-primary btn-rounded">Complete purchase
+                                        <button type="button" onClick={this.localPurchase} class="btn btn-dark btn-rounded">Complete purchase
                         <i class="fas fa-angle-right right"></i>
                                         </button>
                                     </td>

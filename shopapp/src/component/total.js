@@ -38,7 +38,7 @@ function total({ product, removeCartItem, cartIds}) {
                             <strong>${product.price}</strong>
                         </td>
                         <td>
-                            <button onClick={localItemRemover} type="button" className="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top"
+                            <button onClick={localItemRemover} type="button" className="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top"
                                 title="Remove item">X
                             </button>
                         </td>

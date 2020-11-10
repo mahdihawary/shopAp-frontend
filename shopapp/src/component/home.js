@@ -11,7 +11,9 @@ let firstThree = product.slice(0, 3)
 console.log(firstThree)
     
 return (
-        <Container className="w-75 ">
+    <div>
+        <h2>Welcome to Maillot de Sport</h2>
+        <Container className="w-50 ">
             <Carousel className="bg-dark">
                 <Carousel.Item className="bg-dark">
                 <img
@@ -50,6 +52,7 @@ return (
             </Carousel.Item>
         </Carousel>
         </Container>
+    </div>
     )
 }
 

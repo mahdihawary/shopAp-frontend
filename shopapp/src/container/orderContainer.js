@@ -29,6 +29,7 @@ class orders extends React.Component{
     render(){
         console.log(this.props.orders)
         return (<div>
+            {this.props.orders.length===0? <h3>You haven't purchased anything yet...</h3>: <h3>Previous orders</h3>}
             <CardColumns>
                 {this.renderProducts()}
             </CardColumns>

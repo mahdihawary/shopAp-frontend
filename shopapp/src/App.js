@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import ProductContainer from './container/productContainer'
 import ProductShow from './component/productShow'
 import { Route, Switch } from 'react-router-dom'
@@ -10,7 +9,7 @@ import Home from './component/home'
 import Login from './component/login'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Signup from './component/signup'
-import { array } from 'prop-types';
+import './App.css';
 
 
 
@@ -25,7 +24,8 @@ class App extends React.Component{
     cartIds:[],
     user:false,
     orders:[],
-    sportFilter:''
+    sportFilter:'',
+    error:false
   }
   filterChange=(e)=>{
     this.setState({ filterTerm : e.target.value})
@@ -90,7 +90,7 @@ class App extends React.Component{
     })
       .then(res => res.json())
       .then(response => { this.setState({ user: response, cart: response.user.data.attributes.products, cartIds: response.user.data.attributes.cart_item, orders: response.user.data.attributes.past_products})})
-    
+      .catch(resp=>this.setState({error:true}))
       console.log(this.state.user)
   }
 
@@ -198,44 +198,38 @@ class App extends React.Component{
         <div>
           {this.state.user? <Navigation logOut={this.logOutHandler}/> : null }
        
-        <Switch>
-        {/* <Route path="/signup" exact render={() => <Signup submitHandler={this.SignUpSubmitHandler}/>} /> */}
-        <Route path="/products/:id" exact render={(routerProps) => {
-            let id = routerProps.match.params.id
-              console.log(id)
-            
-
-            let product
-            if (this.state.products.length > 0) {
-              product = this.state.products.find(el => el.id === id
-                )
+       
               
-            }
-                
+            {this.state.user ? 
+            <Switch>
+
+              <Route path="/products/:id"  render={(routerProps) => {
+                let id = routerProps.match.params.id
+                let product
+                if (this.state.products.length > 0) {
+                  product = this.state.products.find(el => el.id === id
+                  )
+                }
+                return (
+                  <>
+                    {this.state.products.length > 0 && this.state.user ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} userId={this.state.user.user.data.id} />
+                      : <h1>Loading</h1>}
+                  </>)
+              }} />
+
             
-            return (
-              <>
-                  {
-                    this.state.products.length > 0 && this.state.user ? <ProductShow product={product.attributes} clickHandler={this.cardShowClickHandler} userId={this.state.user.user.data.id} />
-                      :
-                      <h1>Loading</h1>
-                  }
-              </>
-            )
-          }} />
-            {this.state.user ? <>
-          {/* <Route path="/login" exact render={()=><Login loginHandler={this.loginHandler}/>}/> */}
-          <Route path="/checkout"  exact render={() => <CartContainer removeCartItem={this.removeCartItem} cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
-              <Route path="/orders" exact render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user} orders={this.state.orders}/>} />
+          <Route path="/checkout"   render={() => <CartContainer removeCartItem={this.removeCartItem} cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/>} />
+          <Route path="/orders"  render={() => <Orders clickHandler={this.productCardClickHandler} user={this.state.user} orders={this.state.orders}/>} />
           
-          <Route path="/products" exact render={() => <ProductContainer filterHandler={this.filterHandler} products={this.filterProduct()}  filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
-          <Route path="/" exact render={() => <Home product={this.state.products}/>} /></>
-          : <> 
-          <Route path="/signup" exact render={() => <Signup submitHandler={this.SignUpSubmitHandler}/>} /> 
-          <Route path="/"  exact render={() => <Login loginHandler={this.loginHandler}/>} />
-          </>
+          <Route path="/products"  render={() => <ProductContainer filterHandler={this.filterHandler} products={this.filterProduct()}  filterTerm={this.state.filterTerm} filterChange={this.filterChange}/>} />
+          <Route path="/"  render={() => <Home product={this.state.products}/>} /></Switch>
+          : <Switch> 
+            
+          <Route path="/signup" render={() => <Signup submitHandler={this.SignUpSubmitHandler}/>} /> 
+          <Route path="/"  render={() => <Login loginHandler={this.loginHandler} error={this.state.error}/>} />
+          </Switch>
         }
-      </Switch>
+      
           </div>
      
       </div>

@@ -42,7 +42,8 @@ class Login extends React.Component {
     render(){
         return (
             <Container className="login-form">
-                <h1>Log in</h1>
+                {this.props.error ? <h5 style={{ color: "red" }}>Incorrect username or password</h5> : null}
+                <h1 >Log in</h1>
                 <div className="row h-100 justify-content-center align-items-center">
             <Form onSubmit={this.localSubmitHandler} className="col-12 ">
                 <Form.Row className=" h-100 justify-content-md-center">
@@ -51,13 +52,13 @@ class Login extends React.Component {
                     
                     
                         <Form.Control type="password" name="password" value={this.state.password} onChange={e => this.changeHandler(e)} className="login-input"/>
-                                <button type="submit" className="login-input btn-primary btn">submit</button>
+                                <button type="submit" className="login-input btn-dark btn">submit</button>
                     </Col>
                     
                 </Form.Row>
             </Form>
             
-          <p><NavLink to={`/signup`} exact className="signUp-link">Sign Up</NavLink></p>
+          <p>Don't have an account? <NavLink to={`/signup`} exact className="signUp-link">Sign Up</NavLink></p>
 
 
             </div>
