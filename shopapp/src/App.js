@@ -99,17 +99,17 @@ class App extends React.Component{
     })
 
     
-  //   fetch('http://localhost:3000/api/v1/profile', {
-  //     method: 'GET',
-  //     headers: {
-  //    Authorization: `Bearer ${this.state.user.jwt}`
-  // }
-  //   })
-  //     .then(res => res.json())
-  //     .then(user => {
-  //       console.log(user.data.attributes.past_products)
-  //       this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item, orders:user.data.attributes.past_products })
-  //     })
+    fetch('http://localhost:3000/api/v1/profile', {
+      method: 'GET',
+      headers: {
+     Authorization: `Bearer ${this.state.user.jwt}`
+  }
+    })
+      .then(res => res.json())
+      .then(user => {
+        console.log(user.data.attributes.past_products)
+        this.setState({ cart: user.data.attributes.products, cartIds:user.data.attributes.cart_item, orders:user.data.attributes.past_products })
+      })
       
   }
   renderProducts=()=>{
