@@ -1,5 +1,8 @@
 import React from 'react'
 import { Container, Form, Col } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
+import { NavLink } from 'react-router-dom'
+
 
 class Login extends React.Component {
 
@@ -53,6 +56,10 @@ class Login extends React.Component {
                     
                 </Form.Row>
             </Form>
+            
+          <p><NavLink to={`/signup`} exact className="signUp-link">Sign Up</NavLink></p>
+
+
             </div>
             </Container>
         )

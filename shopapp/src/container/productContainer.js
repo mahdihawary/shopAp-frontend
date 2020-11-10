@@ -1,19 +1,21 @@
 import React from 'react'
 import ProductCard from '../component/productCard'
+import ProductShow from '../component/productShow'
+import { Route, Switch } from 'react-router-dom'
 import SearchBar from '../component/searchBar'
 import{CardColumns} from 'react-bootstrap'
 
 
-const productContainer = ({products, clickHandler, filterTerm, filterChange}) =>{
+const productContainer = ({products, clickHandler, filterTerm, filterChange, filterHandler}) =>{
 
 
     function renderProduct(){ return products.map(product => <ProductCard key={product.id} product={product.attributes} clickHandler={clickHandler}/>)}
-    console.log(products)
+  
 
     return(
        
         <div>
-            <SearchBar filterTerm={filterTerm} filterChange={filterChange}/>
+            <SearchBar filterHandle={filterHandler} filterTerm={filterTerm} filterChange={filterChange}/>
             <CardColumns>
                 {renderProduct()}
             </CardColumns>

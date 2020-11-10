@@ -1,9 +1,24 @@
+import { func } from 'prop-types'
 import React from 'react'
 
 
-function total({ product }) {
+function total({ product, removeCartItem, cartIds}) {
+
+    // function findCartIds(){
+        
+    //     return cartIds.find(item => item.product_id === product.id).id
+
+    // }
 
 
+    
+    function localItemRemover(){
+        let id =cartIds.find(item => item.product_id === product.id).id
+        console.log(id)
+        
+        removeCartItem(id)
+    }
+  
     return (
         
             <tr>
@@ -22,7 +37,11 @@ function total({ product }) {
                         <td className="font-weight-bold">
                             <strong>${product.price}</strong>
                         </td>
-
+                        <td>
+                            <button onClick={localItemRemover} type="button" className="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top"
+                                title="Remove item">X
+                            </button>
+                        </td>
           </tr>
 
         

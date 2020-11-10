@@ -1,7 +1,7 @@
 import React from 'react'
 import{Container, Form, Col} from 'react-bootstrap'
 
-const searchBar=({filterTerm, filterChange})=>{
+const searchBar=({filterTerm, filterChange, filterHandle})=>{
 
 
 
@@ -13,10 +13,11 @@ const searchBar=({filterTerm, filterChange})=>{
                         <Form.Control type="text" value={filterTerm} onChange={e => filterChange(e)} placeholder="Search..." id="inlineFormInputName"></Form.Control>
         </Col>
         <Col sm={3} className="my-1">
-        <Form.Control as="select" className="mr-sm-2" id="inlineFormCustomSelect" custom >
-        <option value="0">Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
+        <Form.Control as="select" onChange={e =>filterHandle(e.target.value)} className="mr-sm-2" id="inlineFormCustomSelect" custom >
+        <option value="">Select Sport</option>
+        <option value="soccer">soccer</option>
+        <option value="basketball">basketball</option>
+        <option value="football">football</option>
       </Form.Control>
       </Col>
       </Form.Row>

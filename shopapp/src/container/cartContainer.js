@@ -4,7 +4,7 @@ import Total from '../component/total'
 
 class Cart extends React.Component{
     renderCartItems=()=>{
-       return this.props.cart.map(product => <Total key={product.id} product={product} clickHandler="something" />)
+       return this.props.cart.map(product => <Total key={product.id} product={product} cartIds={this.props.cartIds} removeCartItem={this.props.removeCartItem} clickHandler="something" />)
     }
 
     localPurchase=()=>{
@@ -19,6 +19,7 @@ class Cart extends React.Component{
     }
 
     render(){
+        console.log(this.props.cartIds)
         return(
             <div>
 
