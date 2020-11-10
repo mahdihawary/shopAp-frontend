@@ -84,7 +84,7 @@ class App extends React.Component{
       },
       body: JSON.stringify({
         user: {
-          username: user.username,
+          username: user.username.toLowerCase(),
           password: user.password,
         }
       })
@@ -102,7 +102,7 @@ class App extends React.Component{
         "content-type": "application/json",
         accepts: "application/json"
       },
-      body: JSON.stringify({user:{ username:obj.username , password: obj.password, user_img:obj.userImg }})
+      body: JSON.stringify({user:{ username:obj.username.toLowerCase() , password: obj.password, user_img:obj.userImg }})
     })
     .then(res => res.json())
       .then(response => { this.setState({ user: response, cart: response.user.data.attributes.products, cartIds: response.user.data.attributes.cart_item, orders: response.user.data.attributes.past_products})})
@@ -198,7 +198,7 @@ class App extends React.Component{
       <div className="App">
         
         <div>
-          {this.state.user? <Navigation logOut={this.logOutHandler} removeCartItem={this.removeCartItem} cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/> : null }
+          {this.state.user? <Navigation logOut={this.logOutHandler} removeCartItem={this.removeCartItem}  userName={this.state.user.user.data.attributes.username}cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/> : null }
        
        
               

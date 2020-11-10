@@ -29,7 +29,7 @@ class Signup extends React.Component{
                 <Col sm={4} className="my-1">
                     <Form.Control type="text" name="username" value={this.state.username} onChange={e => this.changeHandler(e)} placeholder="username" id="inlineFormInputName" className="login-input"/>
                     <Form.Control type="password" name="password" value={this.state.password} onChange={e => this.changeHandler(e)} placeholder="password" className="login-input"/>
-                    <Form.Control type="text" name="userImg" value={this.state.userImg} onChange={e => this.changeHandler(e)} placeholder="image" id="inlineFormInputName" className="login-input"/>
+                    {/* <Form.Control type="text" name="userImg" value={this.state.userImg} onChange={e => this.changeHandler(e)} placeholder="image" id="inlineFormInputName" className="login-input"/> */}
                             <button type="submit" className="login-input btn-dark btn">submit</button>
                 </Col>
                 

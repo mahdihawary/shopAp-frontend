@@ -7,7 +7,7 @@ import CartModal from './cartModal'
 
 
 
-const navigation = ({logOut, cart, removeCartItem, makePurchase, cartIds}) => {
+const navigation = ({logOut, cart, removeCartItem, makePurchase, cartIds, userName}) => {
     
     return (
         <Navbar bg="light" expand="lg" sticky="top">
@@ -29,6 +29,7 @@ const navigation = ({logOut, cart, removeCartItem, makePurchase, cartIds}) => {
                     
                 </Nav>
                 
+            <p className="username">Welcome, {userName.charAt(0).toUpperCase() + userName.slice(1)} </p>
                     <CartModal removeCartItem={removeCartItem} cart={cart} makePurchase={makePurchase} cartIds={cartIds}/>
                     <p className="nav-link logout-link"  onClick={logOut}>Log Out</p>
             </Navbar.Collapse>

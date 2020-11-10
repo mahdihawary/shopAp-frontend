@@ -29,10 +29,10 @@ class Cart extends React.Component{
                                     <tr>
                                         <th></th>
                                         <th className="font-weight-bold">
-                                            <strong>Team</strong>
+                                            <strong>Product</strong>
                                         </th>
                                         <th className="font-weight-bold">
-                                            <strong>Player</strong>
+                                            <strong>Team</strong>
                                         </th>
                                         <th></th>
                                         <th className="font-weight-bold">
