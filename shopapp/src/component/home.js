@@ -4,6 +4,7 @@ import { Carousel, Container } from 'react-bootstrap'
 
 
 
+
 const home = ({product}) => {
 
 let firstThree = product.slice(0, 3)

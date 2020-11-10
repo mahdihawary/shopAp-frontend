@@ -13,6 +13,7 @@ import './App.css';
 
 
 
+
 class App extends React.Component{
 
   state={
@@ -183,6 +184,7 @@ class App extends React.Component{
       console.log(newCart)
      
       this.setState({ cart: newCart})})
+      .catch(console.log)
 
 }
   
@@ -196,7 +198,7 @@ class App extends React.Component{
       <div className="App">
         
         <div>
-          {this.state.user? <Navigation logOut={this.logOutHandler}/> : null }
+          {this.state.user? <Navigation logOut={this.logOutHandler} removeCartItem={this.removeCartItem} cart={this.state.cart} makePurchase={this.makePurchase} cartIds={this.state.cartIds}/> : null }
        
        
               

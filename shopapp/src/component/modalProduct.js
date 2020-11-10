@@ -1,13 +1,9 @@
 import React from 'react'
 
 
-const total=({ product, removeCartItem, cartIds}) =>{
+ const modalProduct=({ product, removeCartItem, cartIds})=> {
 
-    // function findCartIds(){
-        
-    //     return cartIds.find(item => item.product_id === product.id).id
 
-    // }
 
 
     
@@ -21,16 +17,11 @@ const total=({ product, removeCartItem, cartIds}) =>{
     return (
         
             <tr>
-                <th scope="row ">
-                    <img src={product.image} alt="" className="img-fluid z-depth-0 w-25"/>
-                </th>
                     <td>
                         <h5 className="mt-3">
                             <strong>{product.name}</strong>
                         </h5>
-                        <p className="text-muted">{product.sport}</p>
                     </td>
-                    <td>{product.team}</td>
                     <td></td>
                     
                         <td className="font-weight-bold">
@@ -49,4 +40,4 @@ const total=({ product, removeCartItem, cartIds}) =>{
 
 }
 
-export default total
+export default modalProduct
